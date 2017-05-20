@@ -2,84 +2,88 @@ package TermProject1;
 
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Contacts {
-    Scanner sScanner = new Scanner(System.in);
-    Vector PersonVector = new Vector();
+    Scanner scanner = new Scanner(System.in);
+    Pattern patternNum = Pattern.compile("^[0-9]*$");
+    Vector<Person> vectorPerson = new Vector();
 
-    void Start() {
+    void menu() {
         System.out.println("#### 친구 연락처 관리 ####");
         do {
-            // po.Menu(sScanner);
-            switch (this.Menu()) {
+            System.out.println("1.  연락처 출력");
+            System.out.println("2.  연락처 등록");
+            System.out.println("3.  연락처 삭제");
+            System.out.println("4.  끝내기");
+            System.out.print("선택: ");
+
+            String stringInput = scanner.nextLine();
+            Matcher matcherNum = patternNum.matcher(stringInput);
+            int intInput = matcherNum.find() ? Integer.parseInt(stringInput) : 0;
+
+            switch (intInput) {
                 case 1: // 출력
-                    this.Check();
+                    this.show();
                     break;
                 case 2: // 등록
-                    this.Register();
+                    this.register();
                     break;
                 case 3: // 삭제
-                    this.Cancel();
+                    this.delete();
                     break;
                 case 4: // 종료
                     System.out.println("종료");
                     return;
                 default:
-                    System.out.println("<올바른 입력이 아닙니다.>");
+                    System.out.println("<올바른 입력이 아닙니다.>\n");
+                    break;
             }
         } while (true);
     }
 
-    // 메뉴 출력
-    int Menu() {
-        int iSwitch_Menu = 0;
-        System.out.println("1.  연락처 출력");
-        System.out.println("2.  연락처 등록");
-        System.out.println("3.  연락처 삭제");
-        System.out.println("4.  끝내기");
-        System.out.print("선택: ");
-        iSwitch_Menu = sScanner.nextInt();
-        return iSwitch_Menu;
-    }
-
     // 연락처 출력
-    void Check() { // 조회
-        Person tmp;
-        if (PersonVector.size() == 0) {
+    void show() { // 조회
+        if (vectorPerson.size() == 0)
             System.out.println("등록된 연락처가 없습니다.");
+        else {
+            Person tmp;
+            for (int i = 1; i <= vectorPerson.size(); i++) {
+                tmp = vectorPerson.get(i - 1);
+                System.out.println("    " + i + ".\t" + tmp.getName() + " " + tmp.getAge() + " " + tmp.getPhoneNum());
+            }
+            System.out.println("");
         }
-        for (int Num = 1; Num - 1 < PersonVector.size(); Num++) {
-            tmp = (Person) PersonVector.get(Num - 1);
-            System.out.println("    " + Num + ". " + tmp.getName() + "\t" + tmp.getAge() + "\t" + tmp.getNumber());
-        }
-        System.out.println();
     }
 
     // 연락처 등록
-    void Register() {
-        Person tmpPerson;
+    void register() {
+        Person tmpPerson = new Person();
         System.out.print("  이름 : ");
-        String Name = sScanner.next();
+        tmpPerson.setName();
         System.out.print("  나이 : ");
-        int Age = sScanner.nextInt();
+        tmpPerson.setAge();
         System.out.print("  전화번호 : ");
-        String Number = sScanner.next();
-        System.out.println();
+        tmpPerson.setPhoneNum();
 
-        tmpPerson = new Person(Name, Age, Number);
-        PersonVector.add(tmpPerson);
+        vectorPerson.add(tmpPerson);
+
+        System.out.println();
     }
 
     // 연락처 삭제
-    void Cancel() {
-        // TODO Auto-generated method stub
+    void delete() {
         System.out.print("  삭제할 행번호 : ");
-        int Num = sScanner.nextInt() - 1;
-        if (Num < PersonVector.size() || 0 < Num) {
-            PersonVector.remove(Num);
-        } else {
-            System.out.println("올바른 행 번호가 아닙니다.");
-        }
-        System.out.println();
+
+        String stringInput = scanner.nextLine();
+        Matcher matcherNum = patternNum.matcher(stringInput);
+        int intInput = matcherNum.find() ? Integer.parseInt(stringInput) - 1 : -1;
+
+        if (intInput < vectorPerson.size() || 0 < intInput) {
+            vectorPerson.remove(intInput);
+            System.out.println("  " + stringInput + "행이 삭제되었습니다.\n");
+        } else
+            System.out.println("올바른 행 번호가 아닙니다.\n");
     }
 }
