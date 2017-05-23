@@ -53,21 +53,17 @@ public class Contacts {
                 tmp = vectorPerson.get(i - 1);
                 System.out.println("    " + i + ".\t" + tmp.getName() + " " + tmp.getAge() + " " + tmp.getPhoneNum());
             }
-            System.out.println("");
         }
+        System.out.println("");
     }
 
     // 연락처 등록
     void register() {
         Person tmpPerson = new Person();
-        System.out.print("  이름 : ");
         tmpPerson.setName();
-        System.out.print("  나이 : ");
         tmpPerson.setAge();
-        System.out.print("  전화번호 : ");
-        tmpPerson.setPhoneNum();
-
-        vectorPerson.add(tmpPerson);
+        if (tmpPerson.setPhoneNum(vectorPerson))
+            vectorPerson.add(tmpPerson);
 
         System.out.println();
     }
@@ -80,7 +76,7 @@ public class Contacts {
         Matcher matcherNum = patternNum.matcher(stringInput);
         int intInput = matcherNum.find() ? Integer.parseInt(stringInput) - 1 : -1;
 
-        if (intInput < vectorPerson.size() || 0 < intInput) {
+        if (intInput < vectorPerson.size() && 0 < intInput) {
             vectorPerson.remove(intInput);
             System.out.println("  " + stringInput + "행이 삭제되었습니다.\n");
         } else
