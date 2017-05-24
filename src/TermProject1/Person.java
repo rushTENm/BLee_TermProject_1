@@ -17,7 +17,7 @@ public class Person {
     }
 
     public void setName() {
-        Pattern patternKorean = Pattern.compile("^[가-힣]{1,17}$");
+        Pattern patternKorean = Pattern.compile("^[가-힣 ]{1,17}$");
         Pattern patternRoman = Pattern.compile("^[a-z A-Z,.'-]+$");
 
         while (true) {
