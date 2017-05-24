@@ -74,6 +74,7 @@ public class Person {
             Matcher m4 = p4.matcher(bufferInput);
 
             if (m1.find()) {
+                break;
             } else if (m2.find()) {
                 bufferInput.insert(3, "-");
                 bufferInput.insert(8, "-");

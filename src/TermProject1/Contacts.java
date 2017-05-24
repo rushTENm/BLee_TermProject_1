@@ -76,7 +76,7 @@ public class Contacts {
         Matcher matcherNum = patternNum.matcher(stringInput);
         int intInput = matcherNum.find() ? Integer.parseInt(stringInput) - 1 : -1;
 
-        if (intInput < vectorPerson.size() && 0 < intInput) {
+        if (intInput < vectorPerson.size() && 0 <= intInput) {
             vectorPerson.remove(intInput);
             System.out.println("  " + stringInput + "행이 삭제되었습니다.\n");
         } else
